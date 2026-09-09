@@ -1,32 +1,42 @@
-name: Publish
+name: Publish VS Code extension
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
 
 permissions:
-  id-token: write
   contents: read
+  id-token: write
+
+concurrency:
+  group: publish-vscode-extension
+  cancel-in-progress: false
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
+          cache: npm
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      - uses: azure/login@v2
+      - name: Sign in to Microsoft Entra ID
+        uses: azure/login@v3
         with:
           client-id: ${{ vars.AZURE_CLIENT_ID }}
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           allow-no-subscriptions: true
 
-      - run: npm run compile
-
-      - run: npx vsce publish --azure-credential --allow-missing-repository --skip-duplicate
+      - name: Publish extension
+        run: npm run publish
