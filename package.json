@@ -1,0 +1,46 @@
+{
+    "name": "utunoya",
+    "displayName": "Utunoya",
+    "description": "A live manuscript-style preview for Visual Studio Code",
+    "version": "0.1.3",
+    "publisher": "ieremi",
+    "license": "MIT",
+    "engines": {
+        "vscode": "^1.90.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "keywords": [
+        "manuscript",
+        "preview",
+        "writing",
+        "Japanese",
+        "genko",
+        "character count"
+    ],
+    "activationEvents": [
+        "onCommand:utunoya.open"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "utunoya.open",
+                "title": "Open Utunoya Preview",
+                "category": "Utunoya"
+            }
+        ]
+    },
+    "scripts": {
+        "compile": "tsc -p .",
+        "watch": "tsc --watch -p .",
+        "package": "npm run compile && vsce package --allow-missing-repository",
+        "publish": "npm run compile && vsce publish"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.90.0",
+        "@vscode/vsce": "^3.6.0",
+        "typescript": "^5.9.0"
+    }
+}

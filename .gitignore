@@ -1,0 +1,12 @@
+out/
+node_modules/
+*.vsix
+*.vsix.map
+.vscode-test/
+
+*.log
+npm-debug.log*
+
+.DS_Store
+
+*.tsbuildinfo
