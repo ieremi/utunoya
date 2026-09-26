@@ -2,7 +2,7 @@
     "name": "utunoya",
     "displayName": "Utunoya",
     "description": "A live manuscript-style preview for Visual Studio Code",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "publisher": "ieremius",
     "repository": {
         "type": "git",
@@ -32,9 +32,19 @@
             {
                 "command": "utunoya.open",
                 "title": "Open Utunoya Preview",
-                "category": "Utunoya"
+                "category": "Utunoya",
+                "icon": "$(open-preview)"
             }
-        ]
+        ],
+        "menus": {
+            "editor/title": [
+                {
+                    "command": "utunoya.open",
+                    "when": "editorLangId != '' && resourceScheme != 'utunoya-preview'",
+                    "group": "navigation"
+                }
+            ]
+        }
     },
     "scripts": {
         "compile": "tsc -p .",
