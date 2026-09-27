@@ -2,7 +2,7 @@
     "name": "utunoya",
     "displayName": "Utunoya",
     "description": "A live manuscript-style preview for Visual Studio Code",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "publisher": "ieremius",
     "repository": {
         "type": "git",
