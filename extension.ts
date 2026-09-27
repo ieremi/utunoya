@@ -2,7 +2,20 @@ import * as vscode from 'vscode';
 
 const SCHEME = 'utunoya-preview';
 const COMMAND = 'utunoya.open';
+const VIEW_ID = 'utunoya.view';
 const LINE_WIDTH = 30;
+
+async function closePreview(): Promise<void> {
+    const tabs = vscode.window.tabGroups.all
+        .flatMap((group) => group.tabs)
+        .filter(
+            (tab) =>
+                tab.input instanceof vscode.TabInputText
+                && tab.input.uri.scheme === SCHEME,
+        );
+
+    await vscode.window.tabGroups.close(tabs);
+}
 
 export function activate(
     context: vscode.ExtensionContext,
@@ -18,7 +31,30 @@ export function activate(
     counter.tooltip =
         'Manuscript character count';
 
+    const view = vscode.window.createTreeView(
+        VIEW_ID,
+        {
+            treeDataProvider: {
+                getTreeItem: (item: never) => item,
+                getChildren: () => [],
+            },
+        },
+    );
+
+    view.onDidChangeVisibility((event) => {
+        if (event.visible) {
+            void vscode.commands.executeCommand(COMMAND);
+        } else {
+            void closePreview();
+        }
+    });
+
+    if (view.visible) {
+        void vscode.commands.executeCommand(COMMAND);
+    }
+
     context.subscriptions.push(
+        view,
         counter,
 
         vscode.workspace.registerTextDocumentContentProvider(
