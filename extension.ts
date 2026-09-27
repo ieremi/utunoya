@@ -274,9 +274,8 @@ function createPreviewUri(
 /**
  * Wraps text at fifteen manuscript cells.
  *
- * ASCII alphanumeric characters, parentheses,
- * and spaces use one unit. All other characters
- * use two units.
+ * Digits and spaces use one unit. All other
+ * characters use two units.
  *
  * Thirty units are equivalent to fifteen cells.
  */
@@ -322,14 +321,14 @@ function wrapText(
 }
 
 /**
- * Appends one ASCII space to each half-width run
+ * Appends one ASCII space to each run of digits
  * containing an odd number of characters.
  */
 function padHalfWidthRuns(
     text: string,
 ): string {
     return text.replace(
-        /[0-9A-Za-z()]+/g,
+        /[0-9]+/g,
         (run) => (
             run.length % 2 === 0
                 ? run
@@ -345,7 +344,7 @@ function padHalfWidthRuns(
 function isHalfWidthCharacter(
     character: string,
 ): boolean {
-    return /^[0-9]$/.test(
+    return /^[0-9 ]$/.test(
         character,
     );
 }
